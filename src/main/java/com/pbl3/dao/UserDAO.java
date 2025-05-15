@@ -291,16 +291,12 @@ public class UserDAO implements DAOInterface<User> {
             c = DBUtil.makeConnection();
 
             // Truy vấn lấy dữ liệu phân trang
-            String sql = "SELECT u.*  "
-                    + "FROM _user u "
-                    + "WHERE u.group_user_id = ? "
-                    + "  AND ( "
-                    + "        ? IS NULL OR  "
-                    + "        ? = '' OR  "
-                    + "        u.name LIKE ? "
-                    + "      ) "
-                    + "ORDER BY u.user_id "
-                    + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY;";
+            String sql = "SELECT u.* FROM `users` u " 
+            + "WHERE u.group_user_id = ? "
+            + "AND (? IS NULL OR ? = '' OR u.name LIKE ?) "
+            + "ORDER BY u.user_id "
+            + "LIMIT ?, ?";
+
 
             PreparedStatement s = c.prepareStatement(sql);
             s.setInt(1, groupUserId);
